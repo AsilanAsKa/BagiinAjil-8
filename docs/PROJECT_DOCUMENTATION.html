@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <title>Donation Auth Module - Project Documentation</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: #17202a;
+      background: #ffffff;
+      font-family: "Arial", "Helvetica", sans-serif;
+      font-size: 11pt;
+      line-height: 1.55;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: #102033;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: 30pt;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-top: 28px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #d9e2ec;
+      font-size: 18pt;
+    }
+
+    h3 {
+      margin-top: 20px;
+      font-size: 13.5pt;
+    }
+
+    p {
+      margin: 0 0 10px;
+    }
+
+    ul,
+    ol {
+      margin: 8px 0 12px 20px;
+      padding: 0;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    code {
+      color: #0f4c81;
+      background: #eef6ff;
+      border-radius: 4px;
+      padding: 1px 4px;
+      font-family: "DejaVu Sans Mono", "Consolas", monospace;
+      font-size: 9.5pt;
+    }
+
+    pre {
+      margin: 12px 0 16px;
+      padding: 12px 14px;
+      overflow: hidden;
+      color: #e8f1fb;
+      background: #102033;
+      border-radius: 8px;
+      font-family: "DejaVu Sans Mono", "Consolas", monospace;
+      font-size: 8.8pt;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+
+    table {
+      width: 100%;
+      margin: 12px 0 18px;
+      border-collapse: collapse;
+      page-break-inside: avoid;
+      font-size: 9.8pt;
+    }
+
+    th {
+      color: #ffffff;
+      background: #0f4c81;
+      font-weight: 700;
+    }
+
+    th,
+    td {
+      border: 1px solid #d9e2ec;
+      padding: 8px 9px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .cover {
+      min-height: 260mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18mm 14mm;
+      color: #ffffff;
+      background: linear-gradient(145deg, #102033 0%, #0f4c81 62%, #1f7a8c 100%);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      page-break-after: always;
+    }
+
+    .cover .badge {
+      display: inline-block;
+      width: fit-content;
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 999px;
+      color: #dbeafe;
+      font-size: 10pt;
+      text-transform: uppercase;
+    }
+
+    .cover h1 {
+      max-width: 700px;
+      color: #ffffff;
+      font-size: 34pt;
+      margin-top: 70px;
+    }
+
+    .cover .subtitle {
+      max-width: 650px;
+      margin-top: 14px;
+      color: #dbeafe;
+      font-size: 14pt;
+    }
+
+    .cover-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .cover-card {
+      min-height: 70px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 10px;
+    }
+
+    .cover-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .page {
+      page-break-after: always;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .lead {
+      color: #34495e;
+      font-size: 12pt;
+    }
+
+    .callout {
+      margin: 14px 0 18px;
+      padding: 12px 14px;
+      background: #eef6ff;
+      border-left: 5px solid #0f4c81;
+      border-radius: 8px;
+      page-break-inside: avoid;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 12px 0 16px;
+    }
+
+    .card {
+      padding: 13px;
+      background: #ffffff;
+      border: 1px solid #d9e2ec;
+      border-radius: 8px;
+      page-break-inside: avoid;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .pill {
+      display: inline-block;
+      margin: 2px 4px 2px 0;
+      padding: 3px 8px;
+      color: #0f4c81;
+      background: #eef6ff;
+      border: 1px solid #bfd7ee;
+      border-radius: 999px;
+      font-size: 9pt;
+    }
+
+    .diagram {
+      margin: 14px 0 18px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid #d9e2ec;
+      border-radius: 8px;
+      page-break-inside: avoid;
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .flow span {
+      padding: 8px 10px;
+      background: #ffffff;
+      border: 1px solid #bfd7ee;
+      border-radius: 7px;
+      color: #102033;
+      font-weight: 700;
+    }
+
+    .arrow {
+      color: #0f4c81;
+      font-weight: 700;
+    }
+
+    .placeholder {
+      height: 150px;
+      margin: 12px 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #52616f;
+      background: repeating-linear-gradient(
+        -45deg,
+        #f8fafc,
+        #f8fafc 10px,
+        #edf2f7 10px,
+        #edf2f7 20px
+      );
+      border: 2px dashed #a9b8c6;
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      page-break-inside: avoid;
+    }
+
+    .toc a {
+      color: #0f4c81;
+      text-decoration: none;
+    }
+
+    .muted {
+      color: #52616f;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px solid #d9e2ec;
+      color: #52616f;
+      font-size: 9.5pt;
+    }
+
+    .avoid-break {
+      page-break-inside: avoid;
+    }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div>
+      <span class="badge">Software Project Documentation</span>
+      <h1>Donation Auth Module</h1>
+      <p class="subtitle">Хандивын системийн хэрэглэгчийн бүртгэл, нэвтрэлт, OTP баталгаажуулалт, JWT authentication, refresh token болон role-based authorization модуль.</p>
+      <div class="cover-meta">
+        <div class="cover-card">
+          <strong>Tech Stack</strong>
+          Node.js, Express, MongoDB, Mongoose
+        </div>
+        <div class="cover-card">
+          <strong>Security Focus</strong>
+          bcrypt, JWT, OTP policy, refresh token rotation
+        </div>
+        <div class="cover-card">
+          <strong>Project Type</strong>
+          Backend Authentication & Authorization Module
+        </div>
+        <div class="cover-card">
+          <strong>Test Result</strong>
+          1 test suite, 12 tests passed
+        </div>
+      </div>
+    </div>
+    <div>
+      <p><strong>Баримтын зорилго:</strong> Их сургуулийн хамгаалалт болон GitHub project танилцуулгад ашиглах professional software documentation.</p>
+      <p class="muted">Generated from project markdown documentation and styled HTML source.</p>
+    </div>
+  </section>
+
+  <main>
+    <section class="page toc">
+      <h2>Агуулга</h2>
+      <ol>
+        <li>Төслийн ерөнхий танилцуулга</li>
+        <li>Модулийн зорилго</li>
+        <li>Системийн архитектур</li>
+        <li>Folder structure</li>
+        <li>Ашигласан технологи</li>
+        <li>Authentication flow</li>
+        <li>OTP verification flow</li>
+        <li>API endpoints</li>
+        <li>Security tactics</li>
+        <li>Test results</li>
+        <li>Demo flow</li>
+        <li>Дүгнэлт</li>
+      </ol>
+      <div class="placeholder">Screenshot placeholder: GitHub repository overview эсвэл project home screen</div>
+      <div class="callout">
+        Энэхүү PDF нь repo-д байгаа <code>README.md</code>, <code>docs/MODULE_DOCUMENTATION.md</code>, <code>docs/API_ENDPOINTS.md</code>, <code>docs/SECURITY_TACTICS.md</code>, <code>docs/DEMO_GUIDE.md</code> баримтуудын агуулгыг нэгтгэн presentation-ready хэлбэрээр боловсруулсан.
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>1. Төслийн Ерөнхий Танилцуулга</h2>
+      <p class="lead"><strong>Donation Auth Module</strong> нь “Хандивын систем”-ийн authentication болон authorization хэсгийг хариуцсан backend модуль юм.</p>
+      <p>Модуль нь хэрэглэгч бүртгэх, OTP баталгаажуулах, login хийх, JWT access token үүсгэх, refresh token ашиглах, logout хийх, profile харах болон role-based authorization хийх logic-ийг нэг дор төвлөрүүлсэн.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Системийн оролцогчид</h3>
+          <span class="pill">Guest</span>
+          <span class="pill">Donor</span>
+          <span class="pill">Campaign Creator</span>
+          <span class="pill">Admin</span>
+        </div>
+        <div class="card">
+          <h3>Үндсэн боломжууд</h3>
+          <ul>
+            <li>Register, OTP verify, Login</li>
+            <li>JWT access token, refresh token</li>
+            <li>Logout болон token invalidation</li>
+            <li>Profile болон admin-only route</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>2. Модулийн Зорилго</h2>
+      <p>Модулийн зорилго нь хэрэглэгчийн identity-г найдвартай баталгаажуулж, системийн хамгаалагдсан endpoint-ууд руу зөвхөн зөв эрхтэй хэрэглэгч нэвтрэх боломжтой болгох юм.</p>
+      <ul>
+        <li>Бүртгэлийн үед email, phone, password, role validation хийх</li>
+        <li>Password-г plain text хэлбэрээр хадгалахгүй байх</li>
+        <li>OTP ашиглан хэрэглэгчийн бүртгэлийг баталгаажуулах</li>
+        <li>Access token болон refresh token ашиглан session удирдах</li>
+        <li>Role бүрийн permission-г backend middleware дээр шалгах</li>
+      </ul>
+    </section>
+
+    <section class="page">
+      <h2>3. Системийн Архитектур</h2>
+      <p>Модуль нь layered backend architecture ашигласан. Route layer нь endpoint-уудыг тодорхойлж, controller layer бизнес logic гүйцэтгэнэ. Middleware layer authentication, authorization, validation, security policy-г хэрэгжүүлнэ. Model layer нь MongoDB schema болон data persistence-г хариуцна.</p>
+
+      <div class="diagram">
+        <h3>Architecture Overview</h3>
+        <div class="flow">
+          <span>Client</span>
+          <b class="arrow">-></b>
+          <span>Express Routes</span>
+          <b class="arrow">-></b>
+          <span>Middleware</span>
+          <b class="arrow">-></b>
+          <span>Controllers</span>
+          <b class="arrow">-></b>
+          <span>Mongoose Models</span>
+          <b class="arrow">-></b>
+          <span>MongoDB</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Үүрэг</th>
+            <th>Файл/Жишээ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Application</td>
+            <td>Express app, global middleware, route mount</td>
+            <td><code>backend/src/app.js</code></td>
+          </tr>
+          <tr>
+            <td>Routes</td>
+            <td>API endpoint path болон validation/rate limiter холбох</td>
+            <td><code>authRoutes.js</code>, <code>userRoutes.js</code></td>
+          </tr>
+          <tr>
+            <td>Controllers</td>
+            <td>Register, OTP, login, refresh, logout business logic</td>
+            <td><code>authController.js</code></td>
+          </tr>
+          <tr>
+            <td>Middleware</td>
+            <td>JWT authentication, role authorization, validation</td>
+            <td><code>auth.js</code>, <code>validate.js</code></td>
+          </tr>
+          <tr>
+            <td>Data Model</td>
+            <td>User, OTP, refresh token schema</td>
+            <td><code>User.js</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="placeholder">Screenshot placeholder: Architecture diagram эсвэл API client collection screenshot</div>
+    </section>
+
+    <section class="page">
+      <h2>4. Folder Structure</h2>
+      <p>Project нь backend module болон documentation хэсгээс бүрдэнэ.</p>
+      <pre>donation-auth-module/
+├── backend/
+│   ├── .env.example
+│   ├── package.json
+│   ├── package-lock.json
+│   └── src/
+│       ├── app.js
+│       ├── server.js
+│       ├── config/
+│       │   └── db.js
+│       ├── controllers/
+│       │   ├── adminController.js
+│       │   ├── authController.js
+│       │   └── userController.js
+│       ├── middleware/
+│       │   ├── auth.js
+│       │   ├── errorHandler.js
+│       │   └── validate.js
+│       ├── models/
+│       │   └── User.js
+│       ├── routes/
+│       │   ├── adminRoutes.js
+│       │   ├── authRoutes.js
+│       │   └── userRoutes.js
+│       ├── tests/
+│       │   └── auth.test.js
+│       └── utils/
+│           ├── otp.js
+│           ├── tokens.js
+│           └── validation.js
+├── docs/
+│   ├── API_ENDPOINTS.md
+│   ├── DEMO_GUIDE.md
+│   ├── MODULE_DOCUMENTATION.md
+│   ├── PROJECT_DOCUMENTATION.html
+│   ├── PROJECT_DOCUMENTATION.pdf
+│   └── SECURITY_TACTICS.md
+└── README.md</pre>
+
+      <h3>Гол файлууд</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Файл</th>
+            <th>Тайлбар</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>src/app.js</code></td>
+            <td>Express app, helmet, cors, routes, error handler</td>
+          </tr>
+          <tr>
+            <td><code>src/models/User.js</code></td>
+            <td>User schema, OTP, refresh token, role field</td>
+          </tr>
+          <tr>
+            <td><code>src/controllers/authController.js</code></td>
+            <td>Register, OTP verify, login, refresh, logout logic</td>
+          </tr>
+          <tr>
+            <td><code>src/middleware/auth.js</code></td>
+            <td>JWT authentication болон role-based authorization</td>
+          </tr>
+          <tr>
+            <td><code>src/tests/auth.test.js</code></td>
+            <td>12 integration tests</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="page">
+      <h2>5. Ашигласан Технологи</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Технологи</th>
+            <th>Үүрэг</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Node.js</td><td>Backend runtime</td></tr>
+          <tr><td>Express</td><td>REST API framework</td></tr>
+          <tr><td>MongoDB</td><td>User, OTP, refresh token хадгалах database</td></tr>
+          <tr><td>Mongoose</td><td>MongoDB schema болон model layer</td></tr>
+          <tr><td>bcrypt</td><td>Password болон OTP hash хийх</td></tr>
+          <tr><td>jsonwebtoken</td><td>JWT access token болон refresh token үүсгэх</td></tr>
+          <tr><td>express-validator</td><td>Request input validation</td></tr>
+          <tr><td>express-rate-limit</td><td>Login, OTP, refresh endpoint rate limiting</td></tr>
+          <tr><td>helmet</td><td>HTTP security headers</td></tr>
+          <tr><td>cors</td><td>Frontend origin тохируулах</td></tr>
+          <tr><td>Jest</td><td>Automated test framework</td></tr>
+          <tr><td>Supertest</td><td>API integration testing</td></tr>
+          <tr><td>mongodb-memory-server</td><td>Test environment-д isolated MongoDB ажиллуулах</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        Dependency audit шалгалтаар production dependency vulnerability байхгүй болгож <code>bcrypt@6.0.0</code> ашигласан.
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>6. Authentication Flow</h2>
+      <p>Authentication flow нь register, OTP verify, login, token usage, refresh, logout гэсэн үндсэн lifecycle-тэй.</p>
+      <div class="diagram">
+        <div class="flow">
+          <span>Register</span>
+          <b class="arrow">-></b>
+          <span>OTP Verify</span>
+          <b class="arrow">-></b>
+          <span>Login</span>
+          <b class="arrow">-></b>
+          <span>Access Token</span>
+          <b class="arrow">-></b>
+          <span>Protected Route</span>
+          <b class="arrow">-></b>
+          <span>Refresh</span>
+          <b class="arrow">-></b>
+          <span>Logout</span>
+        </div>
+      </div>
+
+      <ol>
+        <li>User register хийнэ.</li>
+        <li>Server password-г bcrypt ашиглан hash хийнэ.</li>
+        <li>Server 6 оронтой OTP үүсгэж hash хэлбэрээр хадгална.</li>
+        <li>User OTP verify хийсний дараа <code>isVerified=true</code> болно.</li>
+        <li>User email/phone болон password ашиглан login хийнэ.</li>
+        <li>Server access token болон refresh token буцаана.</li>
+        <li>Protected route дээр <code>Authorization: Bearer &lt;accessToken&gt;</code> ашиглана.</li>
+        <li>Access token expire бол refresh token ашиглан шинэ token авна.</li>
+        <li>Refresh үед refresh token rotate хийгдэж хуучин token хүчингүй болно.</li>
+        <li>Logout үед refresh token database-аас устгагдана.</li>
+      </ol>
+
+      <h3>Login Request Example</h3>
+      <pre>{
+  "identifier": "donor@example.com",
+  "password": "StrongPass123"
+}</pre>
+
+      <h3>Login Response Example</h3>
+      <pre>{
+  "message": "Login successful",
+  "accessToken": "jwt_access_token",
+  "refreshToken": "jwt_refresh_token",
+  "user": {
+    "email": "donor@example.com",
+    "role": "donor",
+    "isVerified": true
+  }
+}</pre>
+    </section>
+
+    <section class="page">
+      <h2>7. OTP Verification Flow</h2>
+      <p>OTP verification нь бүртгүүлсэн хэрэглэгчийн email/phone эзэмшлийг баталгаажуулах зорилготой. OTP нь 6 оронтой, 2 минутын хүчинтэй хугацаатай, 3 удаа буруу оруулахад lock болно.</p>
+
+      <div class="diagram">
+        <div class="flow">
+          <span>OTP үүсэх</span>
+          <b class="arrow">-></b>
+          <span>OTP hash хадгалах</span>
+          <b class="arrow">-></b>
+          <span>2 минут TTL</span>
+          <b class="arrow">-></b>
+          <span>Verify</span>
+          <b class="arrow">-></b>
+          <span>Success эсвэл Lock</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Policy</th>
+            <th>Утга</th>
+            <th>Зорилго</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OTP length</td>
+            <td>6 digit</td>
+            <td>Хэрэглэгчид оруулахад энгийн, brute-force хамгаалалттай хосолно</td>
+          </tr>
+          <tr>
+            <td>Expiration</td>
+            <td>2 минут</td>
+            <td>Хуучин OTP ашиглах эрсдэлийг багасгана</td>
+          </tr>
+          <tr>
+            <td>Failed attempts</td>
+            <td>3 удаа</td>
+            <td>OTP таах оролдлогыг хязгаарлана</td>
+          </tr>
+          <tr>
+            <td>Storage</td>
+            <td>bcrypt hash</td>
+            <td>OTP raw value database-д хадгалагдахгүй</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>OTP Verify Request Example</h3>
+      <pre>{
+  "identifier": "donor@example.com",
+  "otp": "123456"
+}</pre>
+
+      <div class="placeholder">Screenshot placeholder: OTP verify success response</div>
+    </section>
+
+    <section class="page">
+      <h2>8. API Endpoints</h2>
+      <p>API endpoint-ууд нь public, authenticated, admin-only access rule-тэй.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Access</th>
+            <th>Тайлбар</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>GET</code></td><td><code>/health</code></td><td>Public</td><td>Server health шалгах</td></tr>
+          <tr><td><code>POST</code></td><td><code>/api/auth/register</code></td><td>Public</td><td>Хэрэглэгч бүртгэх, OTP үүсгэх</td></tr>
+          <tr><td><code>POST</code></td><td><code>/api/auth/verify-otp</code></td><td>Public, rate limited</td><td>OTP баталгаажуулах</td></tr>
+          <tr><td><code>POST</code></td><td><code>/api/auth/login</code></td><td>Public, rate limited</td><td>Email/phone + password login</td></tr>
+          <tr><td><code>POST</code></td><td><code>/api/auth/refresh</code></td><td>Public, rate limited</td><td>Refresh token rotate хийх</td></tr>
+          <tr><td><code>POST</code></td><td><code>/api/auth/logout</code></td><td>Public</td><td>Refresh token invalid хийх</td></tr>
+          <tr><td><code>GET</code></td><td><code>/api/users/me</code></td><td>Authenticated</td><td>Current user profile авах</td></tr>
+          <tr><td><code>GET</code></td><td><code>/api/admin/users</code></td><td>Admin only</td><td>Бүх user жагсаалт авах</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Protected Route Header</h3>
+      <pre>Authorization: Bearer &lt;accessToken&gt;</pre>
+
+      <h3>Register Request Example</h3>
+      <pre>{
+  "name": "Test Donor",
+  "phone": "+97699112233",
+  "email": "donor@example.com",
+  "password": "StrongPass123",
+  "role": "donor"
+}</pre>
+    </section>
+
+    <section class="page">
+      <h2>9. Security Tactics</h2>
+      <p>Модуль нь authentication болон authorization хэсэгт шаардлагатай хамгаалалтын тактикуудыг backend түвшинд хэрэгжүүлсэн.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Security tactic</th>
+            <th>Хэрэгжүүлэлт</th>
+            <th>Хамгаалж буй эрсдэл</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>bcrypt password hashing</td>
+            <td>Password-г <code>bcrypt.hash</code> ашиглан хадгална</td>
+            <td>Plain text password leak</td>
+          </tr>
+          <tr>
+            <td>JWT access token</td>
+            <td><code>sub</code>, <code>role</code> payload бүхий signed token</td>
+            <td>Unauthorized protected route access</td>
+          </tr>
+          <tr>
+            <td>Refresh token rotation</td>
+            <td>Refresh бүр дээр шинэ token үүсгэж хуучныг invalid болгоно</td>
+            <td>Refresh token reuse</td>
+          </tr>
+          <tr>
+            <td>Refresh token invalidation</td>
+            <td>Logout үед refresh token hash database-аас устгана</td>
+            <td>Logout дараах session reuse</td>
+          </tr>
+          <tr>
+            <td>OTP expiration</td>
+            <td>OTP 2 минут хүчинтэй</td>
+            <td>Хуучин OTP ашиглах</td>
+          </tr>
+          <tr>
+            <td>OTP attempt lock</td>
+            <td>3 буруу оролдлогын дараа lock</td>
+            <td>OTP brute-force</td>
+          </tr>
+          <tr>
+            <td>Input validation</td>
+            <td><code>express-validator</code> ашигласан</td>
+            <td>Invalid input, bad request</td>
+          </tr>
+          <tr>
+            <td>Rate limiting</td>
+            <td>Login, OTP, refresh endpoint дээр limit тавьсан</td>
+            <td>Brute-force болон abuse</td>
+          </tr>
+          <tr>
+            <td>Helmet</td>
+            <td><code>helmet()</code> global middleware</td>
+            <td>Security header дутуу байх</td>
+          </tr>
+          <tr>
+            <td>CORS</td>
+            <td><code>CORS_ORIGIN</code> env тохиргоо</td>
+            <td>Untrusted origin access</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        Sensitive fields болох <code>password</code>, <code>otp.codeHash</code>, <code>refreshTokens</code> нь Mongoose schema дээр default query-д сонгогдохгүй байхаар <code>select: false</code> тохируулагдсан.
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>10. Test Results</h2>
+      <p>Модуль дээр Jest, Supertest, mongodb-memory-server ашиглан integration test хийсэн.</p>
+
+      <div class="callout">
+        <strong>Test summary:</strong> 1 test suite passed, 12 tests passed.
+      </div>
+
+      <pre>PASS src/tests/auth.test.js
+Authentication and authorization module
+  ✓ register success
+  ✓ duplicate email
+  ✓ invalid phone
+  ✓ OTP verify success
+  ✓ OTP expired
+  ✓ OTP 3 failed attempts
+  ✓ login success
+  ✓ wrong password
+  ✓ access protected route without token
+  ✓ admin route blocked for non-admin
+  ✓ refresh token rotates and invalidates old token
+  ✓ logout invalidates refresh token
+
+Test Suites: 1 passed
+Tests:       12 passed</pre>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Test case</th>
+            <th>Шалгаж буй зүйл</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>register success</td><td>Зөв payload-оор хэрэглэгч үүсэх</td></tr>
+          <tr><td>duplicate email</td><td>Давхардсан email reject хийх</td></tr>
+          <tr><td>invalid phone</td><td>Phone validation ажиллах</td></tr>
+          <tr><td>OTP verify success</td><td>Зөв OTP user-г verified болгох</td></tr>
+          <tr><td>OTP expired</td><td>Expired OTP reject хийх</td></tr>
+          <tr><td>OTP 3 failed attempts</td><td>3 буруу оролдлогын дараа lock хийх</td></tr>
+          <tr><td>login success</td><td>Verified user token авах</td></tr>
+          <tr><td>wrong password</td><td>Буруу password reject хийх</td></tr>
+          <tr><td>protected route without token</td><td>Tokenгүй request 401 буцаах</td></tr>
+          <tr><td>admin route blocked for non-admin</td><td>Donor admin route ашиглах үед 403 буцаах</td></tr>
+          <tr><td>refresh token rotation</td><td>Old refresh token invalid болох</td></tr>
+          <tr><td>logout invalidation</td><td>Logout дараа refresh token хүчингүй болох</td></tr>
+        </tbody>
+      </table>
+
+      <div class="placeholder">Screenshot placeholder: Terminal дээрх npm test 12 passed result</div>
+    </section>
+
+    <section class="page">
+      <h2>11. Demo Flow</h2>
+      <p>Их сургуулийн хамгаалалт дээр дараах demo дараалал нь module-ийн гол functionality болон security behavior-ийг бүрэн харуулна.</p>
+
+      <ol>
+        <li>Register request илгээж user үүсгэх.</li>
+        <li>Register response дээрх <code>devOtp</code>-г ашиглан OTP verify хийх.</li>
+        <li>Login хийж <code>accessToken</code>, <code>refreshToken</code> авах.</li>
+        <li><code>/api/users/me</code> protected route-г access token-той дуудах.</li>
+        <li>Donor token ашиглан <code>/api/admin/users</code> дуудаж <code>403 Forbidden</code> авах.</li>
+        <li>Refresh token rotate хийж шинэ token авах.</li>
+        <li>Хуучин refresh token-г дахин ашиглаж <code>401 Invalid refresh token</code> авах.</li>
+        <li>Logout хийж refresh token invalid болгох.</li>
+      </ol>
+
+      <h3>Demo command example</h3>
+      <pre>curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Test Donor",
+    "phone": "+97699112233",
+    "email": "donor@example.com",
+    "password": "StrongPass123",
+    "role": "donor"
+  }'</pre>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Security demo</th>
+            <th>Expected result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Invalid phone register</td><td><code>400 Validation failed</code></td></tr>
+          <tr><td>Duplicate email</td><td><code>409 already registered</code></td></tr>
+          <tr><td>Wrong OTP 3 удаа</td><td><code>423 locked</code></td></tr>
+          <tr><td>Wrong password login</td><td><code>401 Invalid credentials</code></td></tr>
+          <tr><td>Tokenгүй profile route</td><td><code>401 Access token is required</code></td></tr>
+          <tr><td>Donor token-р admin route</td><td><code>403 Forbidden</code></td></tr>
+          <tr><td>Refresh token reuse</td><td><code>401 Invalid refresh token</code></td></tr>
+          <tr><td>Logout дараа refresh</td><td><code>401 Invalid refresh token</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="placeholder">Screenshot placeholder: Postman/Thunder Client demo collection screenshot</div>
+    </section>
+
+    <section>
+      <h2>12. Дүгнэлт</h2>
+      <p><strong>Donation Auth Module</strong> нь онлайн хандивын системд шаардлагатай authentication болон authorization-ийн үндсэн шаардлагуудыг бүрэн хэрэгжүүлсэн.</p>
+      <p>Модуль нь register, OTP verification, login, JWT access token, refresh token rotation, logout, profile access, admin-only authorization зэрэг functionality-г аюулгүй байдлын тактикуудтай хослуулан хэрэгжүүлсэн.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Хэрэгжсэн гол шаардлага</h3>
+          <ul>
+            <li>Register/Login/OTP</li>
+            <li>JWT authentication</li>
+            <li>Refresh token rotation</li>
+            <li>Role-based authorization</li>
+            <li>12 automated tests</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Хамгаалалтын үр дүн</h3>
+          <ul>
+            <li>Password plain text хадгалагдахгүй</li>
+            <li>OTP brute-force хязгаарлагдана</li>
+            <li>Token reuse эрсдэл буурна</li>
+            <li>Admin route role-оор хамгаалагдана</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        PDF generation approach: Markdown documentation агуулгыг presentation-ready HTML template болгон нэгтгэж, Google Chrome headless print engine ашиглан PDF болгосон.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
